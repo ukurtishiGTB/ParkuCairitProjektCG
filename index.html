@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çair Park - 3D Interactive Model</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-container">
+            <div class="loader"></div>
+            <h2>Loading Çair Park...</h2>
+            <p>Preparing your virtual experience</p>
+        </div>
+    </div>
+
+    <!-- Info Panel -->
+    <div id="info-panel">
+        <h1>🌳 Parku i Çairit</h1>
+        <p>3D Interactive Model - Skopje</p>
+        <div class="controls-info">
+            <h3>Controls:</h3>
+            <ul>
+                <li><strong>W/A/S/D</strong> - Move around</li>
+                <li><strong>Mouse</strong> - Look around</li>
+                <li><strong>Click</strong> - Interact with objects</li>
+                <li><strong>Scroll</strong> - Zoom in/out</li>
+                <li><strong>T</strong> - Toggle day/night</li>
+                <li><strong>H</strong> - Hide/Show this panel</li>
+            </ul>
+        </div>
+        <div class="credits">
+            <p><strong>Computer Graphics Project</strong></p>
+            <p>Veron Idrizi & Ubejd Kurtishi</p>
+            <p>Prof. Visar Shehu - SEEU</p>
+        </div>
+    </div>
+
+    <!-- Object Info Popup -->
+    <div id="object-popup" class="hidden">
+        <button id="close-popup">×</button>
+        <h3 id="popup-title">Object Name</h3>
+        <p id="popup-description">Description of the object</p>
+    </div>
+
+    <!-- Time indicator -->
+    <div id="time-indicator">
+        <span id="time-icon">☀️</span>
+        <span id="time-text">Day Mode</span>
+    </div>
+
+    <!-- Mini Map -->
+    <div id="mini-map">
+        <canvas id="map-canvas"></canvas>
+        <div id="player-marker"></div>
+    </div>
+
+    <!-- Three.js Scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+    
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

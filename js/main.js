@@ -40,6 +40,19 @@ const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 const keys = { w: false, a: false, s: false, d: false };
 
+// Camera constraints
+const cameraConstraints = {
+    minHeight: 3,
+    maxHeight: 50,
+    minDistance: 5,
+    maxDistance: 80,
+    bounds: 38
+};
+
+// Default camera position for reset
+const defaultCameraPosition = { x: 0, y: 15, z: 35 };
+const defaultTargetPosition = { x: 0, y: 0, z: 0 };
+
 // Scene objects that need updates
 let sceneObjects = {
     fountain: null,
@@ -106,11 +119,19 @@ function setupControls() {
     // Orbit controls for easier navigation
     orbitControls = new OrbitControls(camera, renderer.domElement);
     orbitControls.enableDamping = true;
-    orbitControls.dampingFactor = 0.05;
-    orbitControls.maxPolarAngle = Math.PI / 2 - 0.1; // Prevent going below ground
-    orbitControls.minDistance = 5;
-    orbitControls.maxDistance = 100;
-    orbitControls.target.set(0, 0, 0);
+    orbitControls.dampingFactor = 0.08;
+    orbitControls.maxPolarAngle = Math.PI / 2 - 0.05; // Prevent going below ground
+    orbitControls.minPolarAngle = 0.1; // Prevent going too high (looking straight down)
+    orbitControls.minDistance = cameraConstraints.minDistance;
+    orbitControls.maxDistance = cameraConstraints.maxDistance;
+    orbitControls.target.set(defaultTargetPosition.x, defaultTargetPosition.y, defaultTargetPosition.z);
+    
+    // Enable smooth zooming
+    orbitControls.zoomSpeed = 1.0;
+    orbitControls.rotateSpeed = 0.7;
+    
+    // Set initial camera position
+    camera.position.set(defaultCameraPosition.x, defaultCameraPosition.y, defaultCameraPosition.z);
 }
 
 function buildPark() {
@@ -274,6 +295,19 @@ function onKeyDown(event) {
         case 'KeyH':
             togglePanel();
             break;
+        case 'KeyR':
+            resetCameraPosition();
+            break;
+        case 'Space':
+            // Move camera up
+            event.preventDefault();
+            moveCameraVertically(5);
+            break;
+        case 'ShiftLeft':
+        case 'ShiftRight':
+            // Move camera down
+            moveCameraVertically(-5);
+            break;
     }
 }
 
@@ -354,6 +388,19 @@ function togglePanel() {
     }
 }
 
+function resetCameraPosition() {
+    // Smoothly reset camera to default position
+    camera.position.set(defaultCameraPosition.x, defaultCameraPosition.y, defaultCameraPosition.z);
+    orbitControls.target.set(defaultTargetPosition.x, defaultTargetPosition.y, defaultTargetPosition.z);
+    orbitControls.update();
+}
+
+function moveCameraVertically(amount) {
+    const newHeight = camera.position.y + amount;
+    // Clamp to constraints
+    camera.position.y = Math.max(cameraConstraints.minHeight, Math.min(cameraConstraints.maxHeight, newHeight));
+}
+
 function updateMovement(delta) {
     // Get camera direction
     const cameraDirection = new THREE.Vector3();
@@ -383,12 +430,18 @@ function updateMovement(delta) {
         camera.position.addScaledVector(rightVector, moveSpeed * delta);
     }
 
-    // Keep within park bounds
-    const bounds = 38;
+    // Keep within park bounds (horizontal)
+    const bounds = cameraConstraints.bounds;
     camera.position.x = Math.max(-bounds, Math.min(bounds, camera.position.x));
     camera.position.z = Math.max(-bounds, Math.min(bounds, camera.position.z));
     orbitControls.target.x = Math.max(-bounds, Math.min(bounds, orbitControls.target.x));
     orbitControls.target.z = Math.max(-bounds, Math.min(bounds, orbitControls.target.z));
+    
+    // Keep camera height within constraints
+    camera.position.y = Math.max(cameraConstraints.minHeight, Math.min(cameraConstraints.maxHeight, camera.position.y));
+    
+    // Keep target at reasonable height (slightly above ground)
+    orbitControls.target.y = Math.max(0, Math.min(10, orbitControls.target.y));
 }
 
 function updateMiniMap() {

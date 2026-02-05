@@ -22,6 +22,7 @@ import { createBirds } from './components/birds.js';
 import { createSkybox } from './components/skybox.js';
 import { setupLighting } from './components/lighting.js';
 import { createSrebrenicaMemorial } from './components/srebrenicaMemorial.js';
+import { createExerciseArea } from './components/exerciseArea.js';
 import { InteractionManager } from './utils/interactions.js';
 import { AnimationManager } from './utils/animations.js';
 
@@ -161,6 +162,10 @@ function buildPark() {
     // Create Srebrenica Memorial
     const srebrenicaMemorial = createSrebrenicaMemorial();
     scene.add(srebrenicaMemorial);
+
+    // Create Exercise/Fitness Area
+    const exerciseArea = createExerciseArea();
+    scene.add(exerciseArea);
 
     // Add park boundary/fence
     createParkBoundary();

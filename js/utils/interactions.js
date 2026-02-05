@@ -13,13 +13,29 @@ export class InteractionManager {
         this.mouse = new THREE.Vector2();
         this.hoveredObject = null;
         
-        // Setup hover detection
+        // Track mouse movement to distinguish clicks from drags
+        this.mouseDownPosition = { x: 0, y: 0 };
+        this.mouseDownTime = 0;
+        this.clickThreshold = 5; // Max pixels moved to count as click
+        this.clickTimeThreshold = 300; // Max milliseconds for a click
+        
+        // Setup hover detection and click tracking
         this.setupHoverDetection();
+        this.setupClickTracking();
     }
 
     setupHoverDetection() {
         this.renderer.domElement.addEventListener('mousemove', (event) => {
             this.onMouseMove(event);
+        });
+    }
+
+    setupClickTracking() {
+        // Track mouse down position
+        this.renderer.domElement.addEventListener('mousedown', (event) => {
+            this.mouseDownPosition.x = event.clientX;
+            this.mouseDownPosition.y = event.clientY;
+            this.mouseDownTime = Date.now();
         });
     }
 
@@ -52,6 +68,16 @@ export class InteractionManager {
     }
 
     onClick(event) {
+        // Check if this was a real click or a drag (looking around)
+        const deltaX = Math.abs(event.clientX - this.mouseDownPosition.x);
+        const deltaY = Math.abs(event.clientY - this.mouseDownPosition.y);
+        const timeDelta = Date.now() - this.mouseDownTime;
+        
+        // If mouse moved too much or took too long, it's not a click
+        if (deltaX > this.clickThreshold || deltaY > this.clickThreshold || timeDelta > this.clickTimeThreshold) {
+            return; // This was a drag, not a click
+        }
+
         // Calculate mouse position
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;

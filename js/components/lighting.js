@@ -50,19 +50,6 @@ export function setupLighting(scene) {
     // const sunHelper = new THREE.DirectionalLightHelper(sunLight, 5);
     // scene.add(sunHelper);
 
-    // Create sun sphere (visual)
-    const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
-    const sunMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffff99,
-        emissive: 0xffff00,
-        transparent: true,
-        opacity: 0.8
-    });
-    const sunMesh = new THREE.Mesh(sunGeometry, sunMaterial);
-    sunMesh.position.copy(sunLight.position);
-    sunMesh.name = 'sunVisual';
-    scene.add(sunMesh);
-
     // Add subtle fill light from the opposite direction
     const fillLight = new THREE.DirectionalLight(0x9090ff, 0.3);
     fillLight.position.set(-30, 20, -30);

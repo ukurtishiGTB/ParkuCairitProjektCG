@@ -145,4 +145,4 @@ Through this project, we learned:
 
 ---
 
-**© 2024 Veron Idrizi & Ubejd Kurtishi - SEEU Computer Graphics Project**
+**© 2026 Veron Idrizi & Ubejd Kurtishi - SEEU Computer Graphics Project**

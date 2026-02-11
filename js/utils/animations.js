@@ -24,12 +24,15 @@ export class AnimationManager {
         const waterSurface = fountain.getObjectByName('waterSurface');
         if (waterSurface) {
             // Subtle wave effect
-            waterSurface.position.y = 0.75 + Math.sin(elapsedTime * 2) * 0.02;
+            waterSurface.position.y = 0.82 + Math.sin(elapsedTime * 2) * 0.02;
+            // Slowly rotate the water surface for a subtle shimmer effect
+            waterSurface.rotation.z = Math.sin(elapsedTime * 0.5) * 0.01;
         }
 
         const upperWater = fountain.getObjectByName('upperWater');
         if (upperWater) {
-            upperWater.position.y = 2.75 + Math.sin(elapsedTime * 2.5) * 0.015;
+            upperWater.position.y = 2.82 + Math.sin(elapsedTime * 2.5) * 0.015;
+            upperWater.rotation.z = Math.sin(elapsedTime * 0.7) * 0.01;
         }
 
         // Animate water spray particles
@@ -48,16 +51,18 @@ export class AnimationManager {
                         positions[i * 3 + 2] += velocities[i].z;
 
                         // Apply gravity
-                        velocities[i].y -= 0.002;
+                        velocities[i].y -= 0.001;
 
-                        // Reset particles that fall below a certain point
-                        if (positions[i * 3 + 1] < -0.5) {
-                            positions[i * 3] = (Math.random() - 0.5) * 0.3;
+                        // Reset particles that fall below or go too high
+                        if (positions[i * 3 + 1] < -0.3 || positions[i * 3 + 1] > 1.2) {
+                            const angle = Math.random() * Math.PI * 2;
+                            const spread = Math.random() * 0.15;
+                            positions[i * 3] = Math.cos(angle) * spread;
                             positions[i * 3 + 1] = 0;
-                            positions[i * 3 + 2] = (Math.random() - 0.5) * 0.3;
-                            velocities[i].x = (Math.random() - 0.5) * 0.02;
-                            velocities[i].y = 0.05 + Math.random() * 0.05;
-                            velocities[i].z = (Math.random() - 0.5) * 0.02;
+                            positions[i * 3 + 2] = Math.sin(angle) * spread;
+                            velocities[i].x = Math.cos(angle) * (0.005 + Math.random() * 0.01);
+                            velocities[i].y = 0.02 + Math.random() * 0.02;
+                            velocities[i].z = Math.sin(angle) * (0.005 + Math.random() * 0.01);
                         }
                     }
 

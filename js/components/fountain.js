@@ -20,12 +20,19 @@ export function createFountain() {
         metalness: 0.1
     });
 
-    const waterMaterial = new THREE.MeshStandardMaterial({
-        color: 0x4a90d9,
+    const waterMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x1a8cd8,
         transparent: true,
-        opacity: 0.6,
-        roughness: 0.1,
-        metalness: 0.3
+        opacity: 0.7,
+        roughness: 0.05,
+        metalness: 0.1,
+        transmission: 0.4,
+        thickness: 0.5,
+        envMapIntensity: 1.0,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1,
+        side: THREE.DoubleSide,
+        depthWrite: false,
     });
 
     // Base pool (outer ring)
@@ -39,7 +46,7 @@ export function createFountain() {
     // Inner pool (water basin)
     const innerPoolGeometry = new THREE.CylinderGeometry(4.5, 4.5, 0.6, 32);
     const innerPoolMaterial = new THREE.MeshStandardMaterial({
-        color: 0x6a6a6a,
+        color: 0x2a5a8a,
         roughness: 0.5
     });
     const innerPool = new THREE.Mesh(innerPoolGeometry, innerPoolMaterial);
@@ -47,10 +54,11 @@ export function createFountain() {
     fountainGroup.add(innerPool);
 
     // Water surface
-    const waterGeometry = new THREE.CircleGeometry(4.4, 32);
+    const waterGeometry = new THREE.CircleGeometry(4.4, 64);
     const waterSurface = new THREE.Mesh(waterGeometry, waterMaterial);
     waterSurface.rotation.x = -Math.PI / 2;
-    waterSurface.position.y = 0.75;
+    waterSurface.position.y = 0.82;
+    waterSurface.renderOrder = 1;
     waterSurface.name = 'waterSurface';
     fountainGroup.add(waterSurface);
 
@@ -69,10 +77,11 @@ export function createFountain() {
     fountainGroup.add(upperBasin);
 
     // Upper water
-    const upperWaterGeometry = new THREE.CircleGeometry(1.3, 16);
+    const upperWaterGeometry = new THREE.CircleGeometry(1.3, 32);
     const upperWater = new THREE.Mesh(upperWaterGeometry, waterMaterial);
     upperWater.rotation.x = -Math.PI / 2;
-    upperWater.position.y = 2.75;
+    upperWater.position.y = 2.82;
+    upperWater.renderOrder = 1;
     upperWater.name = 'upperWater';
     fountainGroup.add(upperWater);
 
@@ -114,20 +123,22 @@ function createWaterSpray() {
     const sprayGroup = new THREE.Group();
     
     // Create particle system for water
-    const particleCount = 100;
+    const particleCount = 60;
     const particles = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = [];
 
     for (let i = 0; i < particleCount; i++) {
-        positions[i * 3] = (Math.random() - 0.5) * 0.5;
-        positions[i * 3 + 1] = Math.random() * 2;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 0.5;
+        const angle = Math.random() * Math.PI * 2;
+        const spread = Math.random() * 0.3;
+        positions[i * 3] = Math.cos(angle) * spread;
+        positions[i * 3 + 1] = Math.random() * 0.8;
+        positions[i * 3 + 2] = Math.sin(angle) * spread;
         
         velocities.push({
-            x: (Math.random() - 0.5) * 0.02,
-            y: 0.05 + Math.random() * 0.05,
-            z: (Math.random() - 0.5) * 0.02
+            x: Math.cos(angle) * (0.005 + Math.random() * 0.01),
+            y: 0.02 + Math.random() * 0.02,
+            z: Math.sin(angle) * (0.005 + Math.random() * 0.01)
         });
     }
 
@@ -135,10 +146,12 @@ function createWaterSpray() {
     particles.userData = { velocities };
 
     const particleMaterial = new THREE.PointsMaterial({
-        color: 0x87ceeb,
-        size: 0.1,
+        color: 0xaaddff,
+        size: 0.08,
         transparent: true,
-        opacity: 0.8
+        opacity: 0.6,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending
     });
 
     const particleSystem = new THREE.Points(particles, particleMaterial);

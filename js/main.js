@@ -347,7 +347,7 @@ function toggleDayNight() {
         
         // Turn on lamp lights
         sceneObjects.lights.lampLights.forEach(light => {
-            light.intensity = 2;
+            light.intensity = 5;
         });
 
         // Change sky color

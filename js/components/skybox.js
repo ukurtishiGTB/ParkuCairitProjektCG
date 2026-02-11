@@ -6,7 +6,7 @@ import * as THREE from 'three';
 
 export function createSkybox() {
     // Create a gradient sky using a large sphere
-    const skyGeometry = new THREE.SphereGeometry(400, 32, 32);
+    const skyGeometry = new THREE.SphereGeometry(400, 64, 64);
     
     // Create gradient shader material
     const skyMaterial = new THREE.ShaderMaterial({

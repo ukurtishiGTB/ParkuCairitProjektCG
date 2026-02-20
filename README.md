@@ -71,36 +71,9 @@ ParkuCairitProjektCG/
 └── README.md               # This file
 ```
 
-## 🚀 How to Run
 
-### Option 1: Using VS Code Live Server
-1. Install the "Live Server" extension in VS Code
-2. Right-click on `index.html`
-3. Select "Open with Live Server"
 
-### Option 2: Using Node.js http-server
-```bash
-# Install http-server globally
-npm install -g http-server
-
-# Navigate to project directory
-cd ParkuCairitProjektCG
-
-# Start the server
-http-server
-
-# Open http://localhost:8080 in your browser
-```
-
-### Option 3: Using Python
-```bash
-# Python 3
-python -m http.server 8080
-
-# Open http://localhost:8080 in your browser
-```
-
-## 🎨 Scene Elements
+## Scene Elements
 
 ### Ground & Environment
 - Grass-textured ground plane
@@ -125,24 +98,3 @@ python -m http.server 8080
 - Procedural sky gradient
 - Fog for depth perception
 
-## 📚 Learning Outcomes
-
-Through this project, we learned:
-- Three.js fundamentals and 3D scene management
-- Creating and manipulating 3D geometries
-- Material systems and texturing
-- Lighting and shadow techniques
-- Animation loops and timing
-- User interaction with raycasting
-- Modular code organization
-- ES6 modules in browser environment
-
-## 🙏 Acknowledgments
-
-- Three.js documentation and examples
-- Prof. Visar Shehu for guidance
-- The community of Çair, Skopje for inspiration
-
----
-
-**© 2026 Veron Idrizi & Ubejd Kurtishi - SEEU Computer Graphics Project**

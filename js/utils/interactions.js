@@ -1,7 +1,3 @@
-/**
- * Interaction Manager - Handles user interactions with objects
- */
-
 import * as THREE from 'three';
 
 export class InteractionManager {

@@ -151,7 +151,7 @@ function buildPark() {
     const paths = createPaths();
     scene.add(paths);
 
-    // Create trees (with hierarchy: trunk + leaves)
+    // Create trees
     const { treeGroup, trees } = createTrees();
     scene.add(treeGroup);
     sceneObjects.trees = trees;
@@ -443,42 +443,6 @@ function updateMovement(delta) {
     orbitControls.target.y = Math.max(0, Math.min(10, orbitControls.target.y));
 }
 
-function updateMiniMap() {
-    const canvas = document.getElementById('map-canvas');
-    const ctx = canvas.getContext('2d');
-    const size = 150;
-    canvas.width = size;
-    canvas.height = size;
-
-    // Draw park background
-    ctx.fillStyle = '#2d5016';
-    ctx.fillRect(0, 0, size, size);
-
-    // Draw paths
-    ctx.strokeStyle = '#c4a35a';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(size / 2, 0);
-    ctx.lineTo(size / 2, size);
-    ctx.moveTo(0, size / 2);
-    ctx.lineTo(size, size / 2);
-    ctx.stroke();
-
-    // Draw fountain (center)
-    ctx.fillStyle = '#60a5fa';
-    ctx.beginPath();
-    ctx.arc(size / 2, size / 2, 8, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Update player marker position
-    const marker = document.getElementById('player-marker');
-    const mapScale = size / 80; // Park is 80 units wide
-    const markerX = (camera.position.x + 40) * mapScale;
-    const markerZ = (camera.position.z + 40) * mapScale;
-    marker.style.left = `${markerX}px`;
-    marker.style.top = `${markerZ}px`;
-}
-
 function animate() {
     requestAnimationFrame(animate);
 
@@ -492,9 +456,6 @@ function animate() {
 
     // Update animations
     animationManager.update(delta, clock.getElapsedTime());
-
-    // Update mini map
-    updateMiniMap();
 
     // Render
     renderer.render(scene, camera);

@@ -1,7 +1,3 @@
-/**
- * Animation Manager - Handles all animations in the scene
- */
-
 import * as THREE from 'three';
 
 export class AnimationManager {
@@ -13,7 +9,6 @@ export class AnimationManager {
         this.animateFountain(elapsedTime);
         this.animateBirds(delta, elapsedTime);
         this.animateTrees(elapsedTime);
-        this.animatePlayground(elapsedTime);
     }
 
     animateFountain(elapsedTime) {
@@ -23,9 +18,7 @@ export class AnimationManager {
         // Animate water surface
         const waterSurface = fountain.getObjectByName('waterSurface');
         if (waterSurface) {
-            // Subtle wave effect
             waterSurface.position.y = 0.82 + Math.sin(elapsedTime * 2) * 0.02;
-            // Slowly rotate the water surface for a subtle shimmer effect
             waterSurface.rotation.z = Math.sin(elapsedTime * 0.5) * 0.01;
         }
 
@@ -123,12 +116,5 @@ export class AnimationManager {
                 foliage.rotation.z = Math.cos(elapsedTime * swaySpeed * 0.7 + swayOffset) * swayAmount;
             }
         });
-    }
-
-    animatePlayground(elapsedTime) {
-        // Find playground group
-        // Animate swings
-        const swingSpeed = 2;
-        const swingAmplitude = 0.3;
     }
 }

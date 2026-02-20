@@ -46,10 +46,6 @@ export function setupLighting(scene) {
     scene.add(sunLight);
     lights.sun = sunLight;
 
-    // Add sun helper (visual representation) - optional, can be removed
-    // const sunHelper = new THREE.DirectionalLightHelper(sunLight, 5);
-    // scene.add(sunHelper);
-
     // Add subtle fill light from the opposite direction
     const fillLight = new THREE.DirectionalLight(0x9090ff, 0.3);
     fillLight.position.set(-30, 20, -30);

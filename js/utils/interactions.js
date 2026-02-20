@@ -128,17 +128,9 @@ export class InteractionManager {
     onObjectHover(object) {
         this.hoveredObject = object;
         document.body.style.cursor = 'pointer';
-        
-        // Optional: Add highlight effect
-        // this.highlightObject(object);
     }
 
     onObjectLeave() {
-        if (this.hoveredObject) {
-            // Optional: Remove highlight effect
-            // this.unhighlightObject(this.hoveredObject);
-        }
-        
         this.hoveredObject = null;
         document.body.style.cursor = 'default';
     }

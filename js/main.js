@@ -8,7 +8,6 @@
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 
 // Import our modules
 import { createParkGround } from './components/ground.js';

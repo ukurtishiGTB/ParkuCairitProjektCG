@@ -130,9 +130,5 @@ export class AnimationManager {
         // Animate swings
         const swingSpeed = 2;
         const swingAmplitude = 0.3;
-
-        // The playground contains swing set which has swing children
-        // This would need proper traversal, but for simplicity:
-        // You can enhance this by storing references during creation
     }
 }
